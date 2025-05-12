@@ -1,0 +1,92 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  DEV_DEPLOY_DIR: '/var/host/www/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME'
+#  PROD_DEPLOY_DIR: '[prod deploy root dir]'
+
+# Build stage
+
+.build:
+  stage: build
+  cache:
+    paths:
+      - node_modules
+  artifacts:
+    paths:
+      - node_modules
+      - dist
+      - package.json
+  script:
+    - yarn install --production
+    - yarn build
+    - echo "$CI_COMMIT_REF_NAME-$CI_JOB_ID" > $CI_PROJECT_DIR/dist/version.txt
+
+build_dev:
+  extends: .build
+  environment: dev
+  variables:
+    APP_ENVIRONMENT: dev
+  only:
+    - master
+
+#build_prod:
+#  extends: .build
+#  environment: production
+#  variables:
+#    APP_ENVIRONMENT: production
+#  only:
+#    - prod
+
+
+# Deploy stage
+
+deploy_dev:
+  environment: dev
+  tags:
+    - dev-server
+  only:
+    - master
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - mkdir -p $DEV_DEPLOY_DIR
+    - rsync
+      --recursive
+      --links
+      --remove-source-files
+      --delete
+      ./ $DEV_DEPLOY_DIR
+    - cd $DEV_DEPLOY_DIR
+    - ln -s ../../config/.env ./dist/.env
+    - ln -s ../config/.env ./.env
+    - ln -s ../files
+#    - yarn migrate:deploy
+#    - pm2 reload practice-backend-steroids
+
+#deploy_prod:
+#  environment: production
+#  tags:
+#    - [production gitlab runner tag]
+#  only:
+#    - prod
+#  stage: deploy
+#  variables:
+#    GIT_STRATEGY: none
+#    CURRENT_DIR: $PROD_DEPLOY_DIR/current
+#    PREVIOUS_DIR: $PROD_DEPLOY_DIR/previous
+#    DEPLOY_DIR: $PROD_DEPLOY_DIR/$CI_PIPELINE_ID
+#  script:
+#    - mkdir -p $DEPLOY_DIR
+#    - rsync --recursive --remove-source-files --delete ./ $DEPLOY_DIR
+#    - rm -rf $(readlink -f $PREVIOUS_DIR) $PREVIOUS_DIR
+#    - if [ -d "$CURRENT_DIR" ]; then mv $CURRENT_DIR $PREVIOUS_DIR; fi
+#    - ln -s $DEPLOY_DIR $CURRENT_DIR
+#    - cd $DEPLOY_DIR
+#    - ln -s ../../../config/backend.env ./dist/.env
+#    - ln -s ../../config/backend.env ./.env
+#    - ln -s ../files
+#    - npm run migrate:deploy
+#    - pm2 reload practice-backend-steroids
