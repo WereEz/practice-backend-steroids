@@ -16,11 +16,11 @@ import {InitModule} from './init/infrastructure/InitModule';
             ...module,
             imports: [
                 ...module.imports,
-                AuthModule,
-                FileModule,
+                // AuthModule,
+                // FileModule,
                 UserModule,
-                NotifierModule,
-                InitModule,
+                // NotifierModule,
+                // InitModule,
             ],
         };
     },

@@ -62,11 +62,11 @@ const appModuleConfig: IModule = {
         return {
             ...module,
             imports: [
-                AuthModule,
+                // AuthModule,
                 UserModule,
-                FileModule,
-                NotifierModule,
-                InitModule,
+                // FileModule,
+                // NotifierModule,
+                // InitModule,
                 process.env.APP_METRICS_TOKEN ? MetricsModule : null,
                 ...module.imports,
             ].filter(Boolean),
