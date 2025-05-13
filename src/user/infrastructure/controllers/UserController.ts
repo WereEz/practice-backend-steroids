@@ -11,17 +11,17 @@ import {
     ParseIntPipe,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiParam } from '@nestjs/swagger';
-import { CreateUserDto } from 'src/user/domain/dtos/create-user.dto';
+import { UserSaveInputDto } from 'src/user/domain/dtos/create-user.dto';
 import { GetUsersDto } from 'src/user/domain/dtos/get-users.dto';
 import { UpdateUserDto } from 'src/user/domain/dtos/update-user.dto';
 import { IUserService, UserServiceToken } from 'src/user/domain/interfaces/IUserServise';
+import { UserService } from 'src/user/domain/services/UserService';
 
 @ApiTags('Users')
 @Controller('/users')
 export class UserController {
     constructor(
-        @Inject(UserServiceToken)
-        private readonly userService: IUserService,
+        private readonly userService: UserService,
     ) { }
 
     @ApiOperation({ summary: 'Get all users with optional filter' })
@@ -39,7 +39,7 @@ export class UserController {
 
     @ApiOperation({ summary: 'Create new user' })
     @Post()
-    async create(@Body() dto: CreateUserDto) {
+    async create(@Body() dto: UserSaveInputDto) {
         return this.userService.createUser(dto);
     }
 

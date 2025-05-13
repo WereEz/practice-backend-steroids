@@ -2,13 +2,13 @@ import { Inject } from '@nestjs/common';
 import { IValidator, IValidatorParams } from '@steroidsjs/nest/usecases/interfaces/IValidator';
 import { FieldValidatorException } from '@steroidsjs/nest/usecases/exceptions/FieldValidatorException';
 import { UpdateUserDto } from '../dtos/update-user.dto';
-import { IUserRepository, UserRepositoryToken } from '../interfaces/IUserRepository';
+import { IUserRepository } from '../interfaces/IUserRepository';
 
 
 
 export class UserEmailUniqueUpdateValidator implements IValidator {
     constructor(
-        @Inject(UserRepositoryToken)
+        @Inject(IUserRepository)
         private readonly userRepository: IUserRepository) { }
 
     async validate(dto: UpdateUserDto, params?: IValidatorParams) {

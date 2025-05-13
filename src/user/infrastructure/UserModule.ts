@@ -1,15 +1,12 @@
 import { ModuleHelper } from '@steroidsjs/nest/infrastructure/helpers/ModuleHelper';
 import coreModule from '@steroidsjs/nest-user';
-import { ISessionService } from '@steroidsjs/nest-auth/domain/interfaces/ISessionService';
 import { Module } from '@steroidsjs/nest/infrastructure/decorators/Module';
-import { AuthModule } from '@steroidsjs/nest-modules/auth/AuthModule';
 import { forwardRef } from '@nestjs/common';
 import { join } from 'path';
 
 import { UserService } from '../domain/services/UserService';
-import { IUserRepository, UserRepositoryToken } from '../domain/interfaces/IUserRepository';
+import { IUserRepository } from '../domain/interfaces/IUserRepository';
 import { UserRepository } from './repositories/UserRepository';
-import { IUserService, UserServiceToken } from '../domain/interfaces/IUserServise';
 import { UserEmailUniqueCreateValidator } from '../domain/validators/email-unique-create.validator';
 import { UserUsernameUniqueValidator } from '../domain/validators/username-unique.validator';
 
@@ -28,21 +25,20 @@ import { UserUsernameUniqueValidator } from '../domain/validators/username-uniqu
             providers: [
                 ...module.providers,
                 {
-                    provide: UserRepositoryToken,
+                    provide: IUserRepository,
                     useClass: UserRepository,
                 },
                 UserEmailUniqueCreateValidator,
                 UserUsernameUniqueValidator,
-
-                ModuleHelper.provide(UserService, UserServiceToken, [
-                    UserRepositoryToken,
+                
+                ModuleHelper.provide(UserService, [
+                    IUserRepository,
                     [UserEmailUniqueCreateValidator, UserUsernameUniqueValidator],
                 ]),
             ],
             exports: [
                 ...module.exports,
-                UserServiceToken,
-                UserRepositoryToken,
+                IUserRepository,
             ],
         };
     },

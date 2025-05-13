@@ -4,7 +4,7 @@ import { UserModel } from '../models/UserModel';
 import { UserEmailUniqueCreateValidator } from '../validators/email-unique-create.validator';
 import { UserUsernameUniqueValidator } from '../validators/username-unique.validator';
 
-export class CreateUserDto {
+export class UserSaveInputDto {
   @ExtendField(UserModel)
   @Validator(UserUsernameUniqueValidator)
   username: string;

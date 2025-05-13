@@ -5,7 +5,6 @@ import {IConsoleAppModuleConfig} from '@steroidsjs/nest/infrastructure/applicati
 import {AuthModule} from './auth/infrastructure/AuthModule';
 import {FileModule} from './file/infrastructure/FileModule';
 import {UserModule} from './user/infrastructure/UserModule';
-import {NotifierModule} from './notifier/infrastructure/NotifierModule';
 import {InitModule} from './init/infrastructure/InitModule';
 
 @Module({

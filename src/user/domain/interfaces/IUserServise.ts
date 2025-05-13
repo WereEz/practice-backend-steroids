@@ -1,7 +1,7 @@
 import { UserModel } from '../models/UserModel';
 import { GetUsersDto } from '../dtos/get-users.dto';
 import { UpdateUserDto } from '../dtos/update-user.dto';
-import { CreateUserDto } from '../dtos/create-user.dto';
+import { UserSaveInputDto } from '../dtos/create-user.dto';
 
 export const UserServiceToken = 'UserServiceToken';
 
@@ -16,5 +16,5 @@ export interface IUserService {
 
     getFilteredUsers(dto: GetUsersDto): Promise<UserModel[]>;
 
-    createUser(dto: CreateUserDto): Promise<UserModel>;
+    createUser(dto: UserSaveInputDto): Promise<UserModel>;
 }

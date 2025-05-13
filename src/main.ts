@@ -6,7 +6,6 @@ import {ModuleMetadata} from '@nestjs/common';
 import {UserModule} from './user/infrastructure/UserModule';
 import {AuthModule} from './auth/infrastructure/AuthModule';
 import {FileModule} from './file/infrastructure/FileModule';
-import {NotifierModule} from './notifier/infrastructure/NotifierModule';
 import {InitModule} from './init/infrastructure/InitModule';
 import {MetricsModule} from './metrics/infrastructure/MetricsModule';
 
