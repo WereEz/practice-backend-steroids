@@ -18,9 +18,5 @@ export interface IUserService {
 
     createUserOrPanic(dto: UserSaveInputDto): Promise<UserModel>;
 
-    findByEmailOrPanic(email: string): Promise<UserModel>;
-
-    existsByUsername(username: string): Promise<boolean>;
-
     getPasswordHash(password: string): Promise<string>;
 }

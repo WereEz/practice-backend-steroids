@@ -28,18 +28,12 @@ import { IUserService } from '../domain/interfaces/IUserServise';
                     provide: IUserRepository,
                     useClass: UserRepository,
                 },
-                // UserEmailUniqueValidator,
-                // UserUsernameUniqueValidator,
+                UserEmailUniqueValidator,
+                UserUsernameUniqueValidator,
 
                 ModuleHelper.provide(UserService, IUserService, [
                     IUserRepository,
-                    // [UserEmailUniqueValidator, UserUsernameUniqueValidator],
-                ]),
-                ModuleHelper.provide(UserEmailUniqueValidator, [
-                    IUserService,
-                ]),
-                ModuleHelper.provide(UserUsernameUniqueValidator, [
-                    IUserService,
+                    [UserEmailUniqueValidator, UserUsernameUniqueValidator],
                 ]),
             ],
             exports: [
