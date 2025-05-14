@@ -16,17 +16,4 @@ export class UserRepository extends CrudRepository<UserModel> implements IUserRe
     ) {
         super();
     }
-
-    async findByEmail(email: string): Promise<UserModel | null> {
-        const user = await this.dbRepository.findOne({ where: { email } });
-        return user ? this.entityToModel(user) : null;
-    }
-
-    async existsByEmail(email: string): Promise<boolean> {
-        return await this.dbRepository.exists({ where: { email } });
-    }
-
-    async existsByUsername(username: string): Promise<boolean> {
-        return await this.dbRepository.exists({ where: { username } });
-    }
 }

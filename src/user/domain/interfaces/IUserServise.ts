@@ -1,20 +1,26 @@
 import { UserModel } from '../models/UserModel';
-import { GetUsersDto } from '../dtos/get-users.dto';
-import { UpdateUserDto } from '../dtos/update-user.dto';
-import { UserSaveInputDto } from '../dtos/create-user.dto';
+import { UserSearchDto } from '../dtos/UserSearchDto';
+import { UpdateUserDto } from '../dtos/UpdateUserDto';
+import { UserSaveInputDto } from '../dtos/UserSaveInputDto';
 
-export const UserServiceToken = 'UserServiceToken';
+export const IUserService = 'IUserService';
 
 export interface IUserService {
-    checkUserExistsById(id: number): Promise<void>;
+    checkUserExistsByIdOrPanic(id: number): Promise<void>;
 
-    getUserById(id: number): Promise<UserModel>;
+    getUserByIdOrPanic(id: number): Promise<UserModel>;
 
-    updateUser(id: number, dto: UpdateUserDto): Promise<UserModel>;
+    updateUserOrPanic(id: number, dto: UpdateUserDto): Promise<UserModel>;
 
     softDeleteUserById(id: number): Promise<void>;
 
-    getFilteredUsers(dto: GetUsersDto): Promise<UserModel[]>;
+    getFilteredUsers(dto: UserSearchDto): Promise<UserModel[]>;
 
-    createUser(dto: UserSaveInputDto): Promise<UserModel>;
+    createUserOrPanic(dto: UserSaveInputDto): Promise<UserModel>;
+
+    findByEmailOrPanic(email: string): Promise<UserModel>;
+
+    existsByUsername(username: string): Promise<boolean>;
+
+    getPasswordHash(password: string): Promise<string>;
 }

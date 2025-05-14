@@ -4,7 +4,4 @@ import { UserModel } from '../models/UserModel';
 export const IUserRepository = 'IUserRepository';
 
 export interface IUserRepository extends ICrudRepository<UserModel> {
-  findByEmail(email: string): Promise<UserModel | null>;
-  existsByEmail(email: string): Promise<boolean>;
-  existsByUsername(username: string): Promise<boolean>;
 }

@@ -3,12 +3,12 @@ import coreModule from '@steroidsjs/nest-user';
 import { Module } from '@steroidsjs/nest/infrastructure/decorators/Module';
 import { forwardRef } from '@nestjs/common';
 import { join } from 'path';
-
 import { UserService } from '../domain/services/UserService';
 import { IUserRepository } from '../domain/interfaces/IUserRepository';
 import { UserRepository } from './repositories/UserRepository';
-import { UserEmailUniqueCreateValidator } from '../domain/validators/email-unique-create.validator';
-import { UserUsernameUniqueValidator } from '../domain/validators/username-unique.validator';
+import { UserEmailUniqueValidator } from '../domain/validators/UserEmailUniqueValidator';
+import { UserUsernameUniqueValidator } from '../domain/validators/UserUsernameUniqueValidator';
+import { IUserService } from '../domain/interfaces/IUserServise';
 
 @Module({
     ...coreModule,
@@ -28,16 +28,23 @@ import { UserUsernameUniqueValidator } from '../domain/validators/username-uniqu
                     provide: IUserRepository,
                     useClass: UserRepository,
                 },
-                UserEmailUniqueCreateValidator,
-                UserUsernameUniqueValidator,
-                
-                ModuleHelper.provide(UserService, [
+                // UserEmailUniqueValidator,
+                // UserUsernameUniqueValidator,
+
+                ModuleHelper.provide(UserService, IUserService, [
                     IUserRepository,
-                    [UserEmailUniqueCreateValidator, UserUsernameUniqueValidator],
+                    // [UserEmailUniqueValidator, UserUsernameUniqueValidator],
+                ]),
+                ModuleHelper.provide(UserEmailUniqueValidator, [
+                    IUserService,
+                ]),
+                ModuleHelper.provide(UserUsernameUniqueValidator, [
+                    IUserService,
                 ]),
             ],
             exports: [
                 ...module.exports,
+                IUserService,
                 IUserRepository,
             ],
         };

@@ -1,7 +1,7 @@
 import { ExtendField } from '@steroidsjs/nest/infrastructure/decorators/fields';
 import { Validator } from '@steroidsjs/nest/usecases/validators';
 import { UserModel } from '../models/UserModel';
-import { UserEmailUniqueUpdateValidator } from '../validators/email-unique-update.validator';
+import { UserEmailUniqueValidator } from '../validators/UserEmailUniqueValidator';
 
 export class UpdateUserDto {
   @ExtendField(UserModel)
@@ -14,7 +14,7 @@ export class UpdateUserDto {
   surname?: string;
 
   @ExtendField(UserModel)
-  @Validator(UserEmailUniqueUpdateValidator)
+  @Validator(UserEmailUniqueValidator)
   email?: string;
 
   @ExtendField(UserModel)
