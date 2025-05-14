@@ -17,10 +17,7 @@ export class UserRepository extends CrudRepository<UserModel> implements IUserRe
         super();
     }
     public async findByEmailOrPanic(email: string) {
-        const user = await this.dbRepository.createQueryBuilder()
-            .where([
-                { email },
-            ]).getOne()
+        const user = await this.findOne({email: email})
         if (!user) {
             throw new NotFoundException(`Not found user by email: ${email}`);
         }

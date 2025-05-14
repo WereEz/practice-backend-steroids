@@ -1,6 +1,6 @@
 import { IValidator, IValidatorParams } from '@steroidsjs/nest/usecases/interfaces/IValidator';
 import { FieldValidatorException } from '@steroidsjs/nest/usecases/exceptions/FieldValidatorException';
-import { Inject } from '@nestjs/common';
+import { Inject, NotFoundException } from '@nestjs/common';
 import { IUserRepository } from '../interfaces/IUserRepository';
 
 export class UserEmailUniqueValidator implements IValidator {
@@ -12,11 +12,17 @@ export class UserEmailUniqueValidator implements IValidator {
         if (!dto.email) return;
         try {
             const existingUser = await this.userRepository.findByEmailOrPanic(dto.email);
+            console.log(existingUser)
             if (existingUser && (!dto.id || existingUser.id !== dto.id)) {
                 throw new FieldValidatorException('Email уже занят');
 
             }
         } catch (e) {
+            if (e instanceof NotFoundException) {
+            }
+            else {
+                throw e;
+            }
         }
     }
 }

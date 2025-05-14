@@ -9,19 +9,20 @@ import { UserRepository } from './repositories/UserRepository';
 import { UserEmailUniqueValidator } from '../domain/validators/UserEmailUniqueValidator';
 import { UserUsernameUniqueValidator } from '../domain/validators/UserUsernameUniqueValidator';
 import { IUserService } from '../domain/interfaces/IUserServise';
+import { AuthModule } from 'src/auth/infrastructure/AuthModule';
 
 @Module({
     ...coreModule,
     tables: ModuleHelper.importDir(join(__dirname, '/tables')),
     module: (config) => {
         const module = coreModule.module(config);
-
         return {
             ...module,
             controllers: ModuleHelper.importDir(join(__dirname, '/controllers')),
-            // imports: [
-            //     forwardRef(() => AuthModule),
-            // ],
+            imports: [
+                ...module.imports,
+                forwardRef(() => AuthModule),
+            ],
             providers: [
                 ...module.providers,
                 {
