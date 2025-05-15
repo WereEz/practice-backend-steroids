@@ -1,7 +1,6 @@
 import { IValidator, IValidatorParams } from '@steroidsjs/nest/usecases/interfaces/IValidator';
 import { UserSaveInputDto } from '../dtos/UserSaveInputDto';
 import { FieldValidatorException } from '@steroidsjs/nest/usecases/exceptions/FieldValidatorException';
-import { UserService } from '../services/UserService';
 import { IUserRepository } from '../interfaces/IUserRepository';
 import { Inject } from '@nestjs/common';
 

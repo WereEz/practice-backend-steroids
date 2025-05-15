@@ -1,12 +1,8 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { IAuthModuleConfig } from '@steroidsjs/nest-auth/infrastructure/config';
-import { AuthModule } from '@steroidsjs/nest-modules/auth/AuthModule';
-import { AppModule } from '@steroidsjs/nest/infrastructure/applications/AppModule';
-import { IAppModuleConfig } from '@steroidsjs/nest/infrastructure/applications/IAppModuleConfig';
 import { AuthTokenPayloadDto } from '../dtos/AuthTokenPayloadDto';
 import { IConfigService } from '../interfaces/IConfigService';
 import { ISessionService } from '../interfaces/ISessionService';
-import { ConfigService } from '@nestjs/config';
+import { DataMapper } from '@steroidsjs/nest/usecases/helpers/DataMapper';
+import { TokensSchema } from '../dtos/TokensSchema';
 
 //Куча лишних импортов, просмотри все файлы и убери их
 
@@ -51,7 +47,9 @@ export class AuthLoginService {
 
         const accessToken = this.generateAccessToken(userId, tokenPayload);
         const refreshToken = this.generateRefreshToken(userId, tokenPayload);
-
-        return { accessToken, refreshToken };
+        return DataMapper.create<TokensSchema>(TokensSchema, {
+            accessToken,
+            refreshToken
+        });
     }
 }

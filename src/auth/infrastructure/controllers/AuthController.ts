@@ -1,9 +1,9 @@
 import { Controller, Post, Body, Get } from '@nestjs/common';
 
 import { AuthService } from 'src/auth/domain/services/AuthService';
-import { ApiTags, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOkResponse, ApiOperation, ApiBody } from '@nestjs/swagger';
 import { UserSaveInputDto } from 'src/user/domain/dtos/UserSaveInputDto';
-import { TokensDto } from 'src/auth/domain/dtos/TokensDto';
+import { TokensSchema } from 'src/auth/domain/dtos/TokensSchema';
 
 
 
@@ -14,10 +14,15 @@ export class AuthController {
     private readonly authService: AuthService) { }
 
   @Post('register')
-  //Добавить @ApiOperation @ApiBody
+  @ApiOperation({
+    summary: 'Регистрация',
+  })
+  @ApiBody({
+    type: UserSaveInputDto,
+  })
   @ApiOkResponse({
     description: 'User successfully registered',
-    type: TokensDto,
+    type: TokensSchema,
   })
   register(@Body() dto: UserSaveInputDto) {
     return this.authService.registration(dto);
