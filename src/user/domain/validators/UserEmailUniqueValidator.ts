@@ -12,12 +12,16 @@ export class UserEmailUniqueValidator implements IValidator {
         if (!dto.email) return;
         try {
             const existingUser = await this.userRepository.findByEmailOrPanic(dto.email);
+            //Лишний console.log
             console.log(existingUser)
+
             if (existingUser && (!dto.id || existingUser.id !== dto.id)) {
+                //Вынести в catch а тут выбрасывать NotFoundException
                 throw new FieldValidatorException('Email уже занят');
 
             }
         } catch (e) {
+            //Тут просто забираем то что пришло в виде error'а и передаем в FieldValidatorException
             if (e instanceof NotFoundException) {
             }
             else {

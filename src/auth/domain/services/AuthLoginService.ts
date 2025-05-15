@@ -8,6 +8,8 @@ import { IConfigService } from '../interfaces/IConfigService';
 import { ISessionService } from '../interfaces/ISessionService';
 import { ConfigService } from '@nestjs/config';
 
+//Куча лишних импортов, просмотри все файлы и убери их
+
 export class AuthLoginService {
     constructor(
         private readonly sessionService: ISessionService,

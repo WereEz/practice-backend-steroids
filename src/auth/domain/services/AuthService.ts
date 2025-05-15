@@ -20,6 +20,7 @@ export class AuthService {
         private userService: UserService,
         @Inject(AuthLoginService)
         private authLoginService: AuthLoginService,
+        //это не используется
         private sessionService: ISessionService,
         public validators: IValidator[],
     ) {
@@ -33,7 +34,13 @@ export class AuthService {
 
     async registration(registrationDto: UserSaveInputDto) {
         const user = await this.userService.createUserOrPanic(registrationDto);
+
+        //console.log удалить
         console.log(this.authLoginService)
+
+
+
+        //должно возвращать return DataMapper.create<TokensSchema>(...)
         return await this.authLoginService.generateTokens(user.id, this.createTokenPayload(user));
     }
 }

@@ -14,6 +14,7 @@ export class AuthController {
     private readonly authService: AuthService) { }
 
   @Post('register')
+  //Добавить @ApiOperation @ApiBody
   @ApiOkResponse({
     description: 'User successfully registered',
     type: TokensDto,
